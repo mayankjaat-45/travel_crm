@@ -24,14 +24,27 @@ const app = express();
 
 app.set("trust proxy", 1);
 
+const allowedOrigins = [
+  "http://localhost:3000",
+  "http://localhost:3001",
+  "https://travel-crmdemo.vercel.app",
+];
+
 const corsOptions = {
-  origin: ["http://localhost:3000", "travel-crmdemo.vercel.app"],
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error(`CORS blocked for origin: ${origin}`));
+    }
+  },
   credentials: true,
   methods: ["GET", "POST", "PATCH", "DELETE", "PUT", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
 };
 
 app.use(cors(corsOptions));
+app.options(/.*/, cors(corsOptions));
 
 app.use(helmet());
 app.use(express.json({ limit: "1mb" }));
