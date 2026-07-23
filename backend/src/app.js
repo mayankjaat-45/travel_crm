@@ -25,7 +25,7 @@ const app = express();
 app.set("trust proxy", 1);
 
 const corsOptions = {
-  origin: ["http://localhost:3000", "http://localhost:3001"],
+  origin: ["http://localhost:3000", "travel-crmdemo.vercel.app"],
   credentials: true,
   methods: ["GET", "POST", "PATCH", "DELETE", "PUT", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
